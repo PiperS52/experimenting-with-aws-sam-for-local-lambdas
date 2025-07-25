@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Template for local AWS Lambda functions using SAM
+Resources:
+  GetTicketsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      CodeUri: lambdas/get_tickets/
+      Environment:
+        Variables:
+          DB_HOST: postgres
+          DB_PORT: 5432
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_NAME: tickets
+      Events:
+        GetTickets:
+          Type: Api
+          Properties:
+            Path: /tickets
+            Method: GET 
+
+  GETTicketFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      CodeUri: lambdas/get_ticket/
+      Environment:
+        Variables:
+          DB_HOST: postgres
+          DB_PORT: 5432
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_NAME: tickets
+      Events:
+        GetTicket:
+          Type: Api
+          Properties:
+            Path: /tickets/{id}
+            Method: GET

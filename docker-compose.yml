@@ -1,0 +1,22 @@
+services:
+  postgres:
+    # build:
+    #   context: ./backend
+    image: postgres:17-alpine
+    ports:
+      - "9010:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=tickets
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - sam-local
+
+volumes:
+  postgres-data:
+
+networks:
+  sam-local:
+    external: true
