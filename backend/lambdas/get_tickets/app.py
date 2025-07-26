@@ -21,18 +21,18 @@ def lambda_handler(event, context):
             password=db_password
         )
         cursor = conn.cursor()
-        
-        # Execute a simple query
         cursor.execute("SELECT * FROM tickets;")
         tickets = cursor.fetchall()
-        print('line 26', tickets)
+
+        colnames = [desc[0] for desc in cursor.description]
 
         # Convert rows to dicts and serialize dates
         def serialize(row):
-            return [
-                str(item) if hasattr(item, 'isoformat') else item
-                for item in row
-            ]
+            return {
+                col: (val.isoformat() if hasattr(val, "isoformat") else val)
+                for col, val in zip(colnames, row)
+            }
+
         tickets_serialized = [serialize(row) for row in tickets]
 
         # Close the cursor and connection

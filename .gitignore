@@ -6,6 +6,7 @@ build
 dist
 coverage
 .vscode
+.aws-sam
 
 **/.terraform/*
 

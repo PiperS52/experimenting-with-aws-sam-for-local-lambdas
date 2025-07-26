@@ -22,16 +22,17 @@ def lambda_handler(event, context):
             password=db_password
         )
         cursor = conn.cursor()
-        
-        # Execute a simple query
         cursor.execute("SELECT * FROM tickets WHERE id = %s", (ticket_id,))
         ticket = cursor.fetchone()
 
+        colnames = [desc[0] for desc in cursor.description]
+
         def serialize(row):
-            return [
-                str(item) if hasattr(item, 'isoformat') else item
-                for item in row
-            ]
+            return {
+                col: (val.isoformat() if hasattr(val, "isoformat") else val)
+                for col, val in zip(colnames, row)
+            }
+        
         ticket_serialized = serialize(ticket)
         
         # Close the cursor and connection
