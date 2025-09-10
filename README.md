@@ -31,7 +31,7 @@ $ docker exec -it <container_name> psql -U postgres -d tickets
 Run the seed script to insert sample data:
 
 ```bash
-$ python seed_tickets.py
+$ python seed_db.py
 ```
 
 ## Running the lambdas locally
@@ -46,6 +46,7 @@ $ docker-compose up --build -d
 - Build the dependencies:
 
 ```bash
+$ cd backend
 $ sam build --use-container
 ```
 
